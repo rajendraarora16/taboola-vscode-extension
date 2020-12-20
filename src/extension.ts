@@ -81,7 +81,7 @@ function fetchAndSaveFile(loaderFileName:any, dest:any) {
 		}
 
 		response.on('end', function() {
-			fs.writeFile(fileTargetPath, beautify(body), function (err) {
+			fs.writeFile(fileTargetPath, beautify(body, { preserve_newlines: false}), function (err) {
 				if (err) { 
 					vscode.window.showErrorMessage(`Something went wrong: ${err}`);
 					return;
