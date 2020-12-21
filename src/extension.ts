@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as url from "url";
 import * as http from "http";
 import * as https from "https";
+import * as path from "path";
 let beautify = require('js-beautify').js;
 
 
@@ -68,8 +69,18 @@ function fetchAndSaveFile(loaderFileName:any, dest:any) {
 			
 			// If directory exists then delete and create it again..
 			if (true){
-				fs.rmdirSync(targetPath, { recursive: true });
-				fs.mkdirSync(targetPath);
+				fs.readdir(targetPath, (err, files) => {
+					if (err) throw err;
+					
+					for (const file of files) {
+						fs.unlink(path.join(targetPath, file), err => {
+						if (err) throw err;
+						});
+					}
+				});
+				fs.mkdir(targetPath, { recursive: true }, (err) => {
+					if (err) throw err;
+				});
 			}
 
 			//response body

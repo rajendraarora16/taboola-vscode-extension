@@ -3,7 +3,7 @@
 	"displayName": "Taboola Loader",
 	"description": "Taboola loader workspace to make life easier",
 	"icon": "images/taboola_logo.jpg",
-	"version": "0.0.3",
+	"version": "0.0.5",
 	"engines": {
 		"vscode": "^1.37.1"
 	},
