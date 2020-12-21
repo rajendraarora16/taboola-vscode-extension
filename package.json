@@ -1,8 +1,9 @@
 {
 	"name": "taboola-loader",
-	"displayName": "taboola-loader",
-	"description": "",
-	"version": "0.0.1",
+	"displayName": "Taboola Loader",
+	"description": "Taboola loader workspace to make life easier",
+	"icon": "images/taboola_logo.jpg",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
@@ -31,6 +32,10 @@
 			}
 		}
 	},
+	"publisher": "RajArora",
+	"extensionPack": [
+		"taboola-loader.taboolaLoader"
+	],
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
