@@ -86,6 +86,11 @@ function fetchAndSaveFile(loaderFileName:any, dest:any) {
 					vscode.window.showErrorMessage(`Something went wrong: ${err}`);
 					return;
 				}
+				
+				//Download index.html file
+				downloadHtmlIndexFile(dest, publisherName, loaderFileName);
+				//Download impl file
+				downloadImplReleaseFile(dest, publisherName, loaderFileName);
 			});
 			vscode.window.showInformationMessage(`Loader file for ${publisherName} is downloaded!`);
 		});
@@ -94,25 +99,28 @@ function fetchAndSaveFile(loaderFileName:any, dest:any) {
 		vscode.window.showErrorMessage(`Downloading ${publisherName} name is failed, please make sure the publisher name is correct: ${e}`);
 	});
 
+}
+
+function downloadHtmlIndexFile(dest:any, publisherName:any, loaderFileName:any) {
 	// Download Tabool mock html template..
 	let taboolaMockTemplateUrl = 'http://cdn.taboola.com/static/impl/html/vs-code-mock.html';
-	let taboolaMockTemplate = req.get(taboolaMockTemplateUrl, function(response) {
+	let taboolaMockTemplate = http.get(taboolaMockTemplateUrl, function(mockResp) {
 		
-		let mockFilePath = `${dest}`,
+		let mockFilePath = `${dest}/${publisherName}`,
 		mockFileTargetPath = `${mockFilePath}/index.html`;
 
 		if (!fs.existsSync(mockFileTargetPath)){
 			
 			let mockTemplateHtml = '';
 
-			if(response.statusCode === 200) {
-				response.setEncoding('utf8');
+			if(mockResp.statusCode === 200) {
+				mockResp.setEncoding('utf8');
 				
-				response.on("data", function(chunk) {
+				mockResp.on("data", function(chunk) {
 					mockTemplateHtml += chunk;
 				});
 
-				response.on('end', function() {
+				mockResp.on('end', function() {
 					fs.writeFile(mockFileTargetPath, mockTemplateHtml.replace('<publisher-name>', loaderFileName), function (err) {
 						if (err) { 
 							vscode.window.showErrorMessage(`Cannot create taboola mock template: ${err}`);
@@ -131,7 +139,47 @@ function fetchAndSaveFile(loaderFileName:any, dest:any) {
 	}).on('error', function(e) {
 		vscode.window.showErrorMessage(`Unable to create Taboola html template: ${e}`);
 	});
+}
 
+
+function downloadImplReleaseFile(dest:any, publisherName:any, loaderFileName:any) {
+	// Download Tabool mock impl release..
+	let taboolaMockTemplateUrl = 'http://cdn.taboola.com/static/impl/js/impl-file-mock-vscode.js';
+	let taboolaMockTemplate = http.get(taboolaMockTemplateUrl, function(mockResp) {
+		
+		let mockFilePath = `${dest}/${publisherName}`,
+		mockFileTargetPath = `${mockFilePath}/impl-release.js`;
+
+		if (!fs.existsSync(mockFileTargetPath)){
+			
+			let mockTemplateImplRelease = '';
+
+			if(mockResp.statusCode === 200) {
+				mockResp.setEncoding('utf8');
+				
+				mockResp.on("data", function(chunk) {
+					mockTemplateImplRelease += chunk;
+				});
+
+				mockResp.on('end', function() {
+					fs.writeFile(mockFileTargetPath, mockTemplateImplRelease, function (err) {
+						if (err) { 
+							vscode.window.showErrorMessage(`Cannot create taboola impl release template: ${err}`);
+							return;
+						}
+					});
+					vscode.window.showInformationMessage(`Taboola impl release file is created`);
+				});
+			} else {
+				vscode.window.showErrorMessage(`Something went wrong while creating Taboola impl release`);
+			}
+		}else {
+			vscode.window.showInformationMessage(`Taboola impl release template already exists`);
+		}
+
+	}).on('error', function(e) {
+		vscode.window.showErrorMessage(`Unable to create Taboola impl release: ${e}`);
+	});
 }
 
 // this method is called when your extension is deactivated
