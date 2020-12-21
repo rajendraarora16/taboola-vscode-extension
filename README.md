@@ -1,6 +1,5 @@
 # Taboola loader
 
-![forthebadge3](https://vsmarketplacebadge.apphb.com/version-short/RajArora.taboola-loader.svg)
 [![forthebadge](https://vsmarketplacebadge.apphb.com/version-short/RajArora.taboola-loader.svg)](https://marketplace.visualstudio.com/items?itemName=RajArora.taboola-loader)
 
 ![forthebadge3](https://vsmarketplacebadge.apphb.com/installs/RajArora.taboola-loader.svg)
